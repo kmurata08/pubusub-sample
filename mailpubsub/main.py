@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect
-
+from flask import Flask, render_template, request, redirect, url_for
+from utils import push_to_topic
 
 app = Flask(__name__)
 
@@ -7,6 +7,17 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/mail/push', methods=['POST'])
+def mail_push():
+    email = request.form['email']
+    message = request.form['message']
+
+    push_msg = 'Email: %s, Message: %s' % (email, message)
+    push_to_topic(push_msg)
+
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

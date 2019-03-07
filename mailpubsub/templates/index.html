@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Index Page</h1>
+<form method="post" action="/mail/push">
+    <div>
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="email">
+    </div>
+    <div>
+        <label for="message">Message:</label>
+        <input id="message" type="text" name="message">
+    </div>
+    <input type="submit" value="送信">
+</form>
+{% endblock %}

@@ -23,6 +23,11 @@ def get_subscription_name():
     return os.environ.get('SUBSCRIPTION_NAME')
 
 
+def callback(msg):
+    print('Received message: {}'.format(msg))
+    msg.ack()
+
+
 def push_to_topic(msg):
     project_id = get_project_id()
     topic_name = get_topic_name()
@@ -33,3 +38,14 @@ def push_to_topic(msg):
     data = msg.encode('utf-8')
     publisher.publish(topic_path, data=data)
     print('Published message.')
+
+
+def pull_from_subscriber():
+    project_id = get_project_id()
+    subscription_name = get_subscription_name()
+
+    subscriber = pubsub_v1.SubscriberClient()
+    subscription_path = subscriber.subscription_path(
+        project_id, subscription_name)
+
+    subscriber.subscribe(subscription_path, callback=callback)

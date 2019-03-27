@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from pubsub_utils import push_to_topic, pull_from_subscriber
+from utils.pubsub_utils import push_to_topic, pull_from_subscriber
 
 import json
 

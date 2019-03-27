@@ -3,11 +3,15 @@
 <h1>Index Page</h1>
 <form method="post" action="/mail/push">
     <div>
-        <label for="email">Email:</label>
+        <label for="email">メールアドレス:</label>
         <input id="email" type="text" name="email">
     </div>
     <div>
-        <label for="message">Message:</label>
+        <label for="subject">タイトル:</label>
+        <input id="subject" type="text" name="subject">
+    </div>
+    <div>
+        <label for="message">一言:</label>
         <input id="message" type="text" name="message">
     </div>
     <input type="submit" value="送信">

@@ -16,6 +16,7 @@ def index():
 def mail_push():
     push_data = {
         'email': request.form['email'],
+        'subject': request.form['subject'],
         'message': request.form['message']
     }
     push_msg = json.dumps(push_data)
@@ -30,8 +31,11 @@ def mail_push():
 def mail_pull():
     def pub_callback(msg):
         data = json.loads(msg.data)
-        send_mail(data['email'], data['message'])
+
+        # SendGridからメール送信
+        send_mail(data['email'], data['subject'], data['message'])
         msg.ack()
+        print('Pulled message.')
 
     # Pub/Subからメッセージを引っ張ってきて、コールバック
     pull_from_subscriber(pub_callback)

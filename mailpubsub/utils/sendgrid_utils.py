@@ -2,6 +2,7 @@ import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
 from dotenv import load_dotenv
 import os
+import textwrap
 
 
 def loadenv():
@@ -15,13 +16,32 @@ def get_api_key():
     return os.environ.get('SENDGRID_API_KEY')
 
 
-def send_mail(to_email, message):
+def send_mail(to_email, subject, message):
     sg = sendgrid.SendGridAPIClient(apikey=get_api_key())
-    from_email = Email('mrt014kzm@gmail.com')
-    subject = 'Test Email'
-    content = Content('text/plain', message)
-    mail = Mail(from_email, subject, Email(to_email), content)
+
+    content_message = get_content_message(to_email, message)
+
+    mail = Mail(
+        Email('pubsubtest@test.com'),
+        subject,
+        Email(to_email),
+        Content('text/plain', content_message))
+
     response = sg.client.mail.send.post(request_body=mail.get())
     print(response.status_code)
-    print(response.body)
-    print(response.headers)
+    if response.status_code >= 400:
+        return False
+
+    return True
+
+
+def get_content_message(to_email, message):
+    content = textwrap.dedent('''
+    {email}様
+
+    フォームに入力いただきありがとうございます。
+
+    {email}様の一言は、{message}です。
+    ''').format(email=to_email, message=message).strip()
+
+    return content

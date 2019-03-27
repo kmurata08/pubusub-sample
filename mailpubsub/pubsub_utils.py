@@ -23,11 +23,6 @@ def get_subscription_name():
     return os.environ.get('SUBSCRIPTION_NAME')
 
 
-def callback(msg):
-    print('Received message: {}'.format(msg))
-    msg.ack()
-
-
 def push_to_topic(msg):
     project_id = get_project_id()
     topic_name = get_topic_name()
@@ -40,7 +35,7 @@ def push_to_topic(msg):
     print('Published message.')
 
 
-def pull_from_subscriber():
+def pull_from_subscriber(callback):
     project_id = get_project_id()
     subscription_name = get_subscription_name()
 

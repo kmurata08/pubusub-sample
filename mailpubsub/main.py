@@ -24,7 +24,13 @@ def mail_push():
     # json形式でメッセージをPub/SubにPush
     push_to_topic(push_msg)
 
-    return redirect(url_for('index'))
+    return redirect(url_for('mail_push_done', message="mail jobを登録しました！"))
+
+
+@app.route('/mail/push/done')
+def mail_push_done():
+    message = request.args['message']
+    return render_template('notify.html', message=message)
 
 
 @app.route('/mail/pull')

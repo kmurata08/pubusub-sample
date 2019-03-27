@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from utils.pubsub_utils import push_to_topic, pull_from_subscriber
+from utils.sendgrid_utils import send_mail
 
 import json
 
@@ -29,8 +30,7 @@ def mail_push():
 def mail_pull():
     def pub_callback(msg):
         data = json.loads(msg.data)
-        print('email: %s' % data['email'])
-        print('msg: %s' % data['message'])
+        send_mail(data['email'], data['message'])
         msg.ack()
 
     # Pub/Subからメッセージを引っ張ってきて、コールバック
